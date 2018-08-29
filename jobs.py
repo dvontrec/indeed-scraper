@@ -16,7 +16,7 @@ with open("jobs.csv", "w") as file:
     for job in jobResults:
       anchor = job.select("a")
       title = anchor[0]["title"]
-      link = anchor[0]["href"]
+      link = "https://www.indeed.com/" + anchor[0]["href"]
       summary = job.select(".summary")[0].text.strip()
       csv_writer.writerow([title, summary, link])
 
