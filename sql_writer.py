@@ -3,10 +3,10 @@ from csv import reader
 import os
 
 # Sets up the connection object
-connectionObject = pymysql.connect(host="localhost / your host url",
-                                   user="root / your username",
-                                   password="root/ your password",
-                                   db="job_db / your db name")
+connectionObject = pymysql.connect(host="your info here",
+                                   user="your info here",
+                                   password="your info here",
+                                   db="your info here")
 
 # Sets up the jobs array as an empty array
 jobs = []
@@ -37,8 +37,6 @@ try:
     # connection is not autocommit by default. So you must commit to save
     # your changes.
     connectionObject.commit()
-    print(cursorObject.fetchall())
-    print(sql)
 
 
 except Exception as e:
