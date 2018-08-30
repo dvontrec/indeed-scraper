@@ -3,10 +3,10 @@ from csv import reader
 import os
 
 # Sets up the connection object
-connectionObject = pymysql.connect(host="your info here",
-                                   user="your info here",
-                                   password="your info here",
-                                   db="your info here")
+connectionObject = pymysql.connect(host="den1.mysql2.gear.host",
+                                   user="scrapedjobs",
+                                   password="Yy031~v!zr9Y",
+                                   db="scrapedjobs")
 
 # Sets up the jobs array as an empty array
 jobs = []
@@ -25,14 +25,19 @@ try:
 
   cursorObject = connectionObject.cursor()
 
+  sqlQ = "DROP TABLE IF EXISTS Jobs"
+  connectionObject.commit()
+  cursorObject.execute(sqlQ)
+
   # SQL query string
-  # sqlQuery = "Create TABLE Jobs(id INT PRIMARY KEY AUTO_INCREMENT, applied BOOLEAN, title VARCHAR(255), company VARCHAR(255), url VARCHAR(255))"
+  sqlQuery = "Create TABLE Jobs(id INT PRIMARY KEY AUTO_INCREMENT, applied BOOLEAN, title VARCHAR(255), company VARCHAR(255), summary TEXT(1000), url TEXT(1000))"
 
   # Execute the sqlQuery
-  # cursorObject.execute(sqlQuery)
+  cursorObject.execute(sqlQuery)
+
   for job in jobs:
-    sql = 'INSERT into Jobs(title, company, url) VALUES("%s", "%s", "%s");' % (
-        job[1], job[2], job[3])
+    sql = 'INSERT into Jobs(title, company, summary, url) VALUES("%s", "%s", "%s", "%s");' % (
+        job[1], job[2], job[3], job[4])
     cursorObject.execute(sql)
     # connection is not autocommit by default. So you must commit to save
     # your changes.
