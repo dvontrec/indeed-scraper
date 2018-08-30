@@ -30,7 +30,7 @@ try:
   cursorObject.execute(sqlQ)
 
   # SQL query string
-  sqlQuery = "Create TABLE Jobs(id INT PRIMARY KEY AUTO_INCREMENT, applied BOOLEAN, title VARCHAR(255), company VARCHAR(255), summary TEXT(1000), url TEXT(1000))"
+  sqlQuery = "Create TABLE Jobs(id INT PRIMARY KEY AUTO_INCREMENT, applied BOOLEAN DEFAULT FALSE, title VARCHAR(255), company VARCHAR(255), summary TEXT(1000), url TEXT(1000))"
 
   # Execute the sqlQuery
   cursorObject.execute(sqlQuery)
