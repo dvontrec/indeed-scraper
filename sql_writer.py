@@ -3,10 +3,10 @@ from csv import reader
 import os
 
 # Sets up the connection object
-connectionObject = pymysql.connect(host="",
-                                   user="",
-                                   password="",
-                                   db="")
+connectionObject = pymysql.connect(host="den1.mysql1.gear.host",
+                                   user="scrapedjobs",
+                                   password="Ut061X~8XeI!",
+                                   db="scrapedjobs")
 
 # Sets up the jobs array as an empty array
 jobs = []
@@ -40,8 +40,8 @@ try:
         job[4])
     cursorObject.execute(existsSql)
     dup = cursorObject.fetchone()[0]
-    # if the url is unique add it to the database
-    if(dup == 0):
+    # if the url is unique add it to the database and the company is not revature
+    if(dup == 0 and job[2] != "Revature"):
       sql = 'INSERT into Jobs(title, company, summary, url) VALUES("%s", "%s", "%s", "%s");' % (
           job[1], job[2], job[3], job[4])
       cursorObject.execute(sql)
