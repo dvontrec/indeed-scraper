@@ -8,7 +8,7 @@ with open("jobs.csv", "w") as file:
   csv_writer = writer(file)
   csv_writer.writerow(["applied", "title", "company", "summary", "link"])
 
-  for count in range(0, 3):
+  for count in range(0, 8):
     results = requests.get(url)
     soup = BeautifulSoup(results.text, "html.parser")
     jobResults = soup.select("#resultsCol .result")

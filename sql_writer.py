@@ -3,14 +3,13 @@ from csv import reader
 import os
 
 # Sets up the connection object
-connectionObject = pymysql.connect(host="Your info here",
-                                   user="Your info here",
-                                   password="Your info here",
-                                   db="Your info here")
+connectionObject = pymysql.connect(host="",
+                                   user="",
+                                   password="",
+                                   db="")
 
 # Sets up the jobs array as an empty array
 jobs = []
-
 # opens jobs.csv and adds each job row to the list
 with open("jobs.csv") as csv_file:
   csv_reader = reader(csv_file)
@@ -36,12 +35,19 @@ try:
   cursorObject.execute(sqlQuery)
 
   for job in jobs:
-    sql = 'INSERT into Jobs(title, company, summary, url) VALUES("%s", "%s", "%s", "%s");' % (
-        job[1], job[2], job[3], job[4])
-    cursorObject.execute(sql)
-    # connection is not autocommit by default. So you must commit to save
-    # your changes.
-    connectionObject.commit()
+    # checkt to make sure jobs are unique by varifying url
+    existsSql = "SELECT COUNT(*) AS count FROM Jobs WHERE url = '%s'" % (
+        job[4])
+    cursorObject.execute(existsSql)
+    dup = cursorObject.fetchone()[0]
+    # if the url is unique add it to the database
+    if(dup == 0):
+      sql = 'INSERT into Jobs(title, company, summary, url) VALUES("%s", "%s", "%s", "%s");' % (
+          job[1], job[2], job[3], job[4])
+      cursorObject.execute(sql)
+      # connection is not autocommit by default. So you must commit to save
+      # your changes.
+      connectionObject.commit()
 
 
 except Exception as e:
