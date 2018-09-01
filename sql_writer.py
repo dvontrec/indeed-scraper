@@ -3,10 +3,10 @@ from csv import reader
 import os
 
 # Sets up the connection object
-connectionObject = pymysql.connect(host="den1.mysql1.gear.host",
-                                   user="scrapedjobs",
-                                   password="Ut061X~8XeI!",
-                                   db="scrapedjobs")
+connectionObject = pymysql.connect(host="",
+                                   user="",
+                                   password="",
+                                   db="")
 
 # Sets up the jobs array as an empty array
 jobs = []
