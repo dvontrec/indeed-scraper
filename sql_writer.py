@@ -29,7 +29,7 @@ try:
   cursorObject.execute(sqlQ)
 
   # SQL query string
-  sqlQuery = "Create TABLE Jobs(id INT PRIMARY KEY AUTO_INCREMENT, applied BOOLEAN DEFAULT FALSE, title VARCHAR(255), company VARCHAR(255), summary TEXT(1000), url TEXT(1000))"
+  sqlQuery = "Create TABLE Jobs(id INT PRIMARY KEY AUTO_INCREMENT, applied BOOLEAN DEFAULT FALSE, direct BOOLEAN,  title VARCHAR(255), company VARCHAR(255), summary TEXT(1000), url TEXT(1000))"
 
   # Execute the sqlQuery
   cursorObject.execute(sqlQuery)
@@ -37,13 +37,13 @@ try:
   for job in jobs:
     # checkt to make sure jobs are unique by varifying url
     existsSql = "SELECT COUNT(*) AS count FROM Jobs WHERE url = '%s'" % (
-        job[4])
+        job[5])
     cursorObject.execute(existsSql)
     dup = cursorObject.fetchone()[0]
     # if the url is unique add it to the database and the company is not revature
-    if(dup == 0 and job[2] != "Revature"):
-      sql = 'INSERT into Jobs(title, company, summary, url) VALUES("%s", "%s", "%s", "%s");' % (
-          job[1], job[2], job[3], job[4])
+    if(dup == 0 and job[3] != "Revature"):
+      sql = 'INSERT into Jobs(direct, title, company, summary, url) VALUES(%s, "%s", "%s", "%s", "%s");' % (
+          job[1], job[2], job[3], job[4], job[5])
       cursorObject.execute(sql)
       # connection is not autocommit by default. So you must commit to save
       # your changes.
