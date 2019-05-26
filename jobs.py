@@ -1,4 +1,5 @@
 import requests
+import re
 from bs4 import BeautifulSoup
 from csv import writer
 
@@ -8,6 +9,8 @@ state = input("Enter A State Abbreviation: ")
 url = "https://www.indeed.com/jobs?q=software+engineer&l={}%2C+{}&explvl=entry_level".format(city, state)
 # Set to hold jobs to avoid duplicates
 jobSet = set()
+# Regex to find special characters
+specChars = re.compile(r'[,|\n"\'\"\r]')
 
 # Loops through the first 18 pages of linkedin
 for count in range(0, 18):
@@ -28,8 +31,9 @@ for count in range(0, 18):
             original = "1"
         company = job.select(".company")[0].text.strip()
         summary = job.select(".summary")[0].text.strip()
-        fullPost = ["", str(original), title, company, summary, link]
-        joinedPost = ",".join(fullPost)
+        fullPost = ["0", str(original), title, company, summary, link]
+        cleanPost = [re.sub(specChars, '', i.strip()) for i in fullPost]
+        joinedPost = ",".join(cleanPost)
         jobSet.add(joinedPost)
     url = "https://www.indeed.com/" + nextL[len(nextL)-1]["href"]
 
@@ -40,6 +44,6 @@ out = open("jobs.csv", "w")
 ["applied", "original", "title", "company", "summary", "link"]
 out.write("applied,original,title,company,summary, link\n")
 
-# adds each address as a line in the csv file
+# adds each Post as a line in the csv file
 for job in jobSet:
     out.write(job + "\n")
