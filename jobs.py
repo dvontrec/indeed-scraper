@@ -2,7 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 from csv import writer
 
-url = "https://www.indeed.com/jobs?q=software+engineer&l=Louisville%2C+KY&explvl=entry_level"
+city = input("Enter A City name: ")
+state = input("Enter A State Abbreviation: ")
+
+url = "https://www.indeed.com/jobs?q=software+engineer&l={}%2C+{}&explvl=entry_level".format(city, state)
 # Set to hold jobs to avoid duplicates
 jobSet = set()
 
